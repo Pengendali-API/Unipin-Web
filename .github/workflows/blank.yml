@@ -1,6 +1,7 @@
 - name: Delete Old Releases
-  - uses: Nats-ji/delete-old-releases@v1
-    with:
-      token: ${{ secrets.GITHUB_TOKEN }}
-      keep-count: 1
-      keep-old-minor-releases: false
+    steps:
+      - uses: Nats-ji/delete-old-releases@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          keep-count: 1
+          keep-old-minor-releases: false
