@@ -1,7 +1,33 @@
-- name: Delete Old Releases
+name: Delete old releases
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: Nats-ji/delete-old-releases@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Run action
+        uses: ./ # Uses an action in the root directory
+        id: del_release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           keep-count: 1
-          keep-old-minor-releases: false
+          keep-old-minor-releases: true
+          keep-old-minor-releases-by: patch
+          include-prerelease: true
+          semver-loose: true
+          remove-tags: true
+          dry-run: true
